@@ -16,7 +16,7 @@ export default function ItemsList() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedStatus, setSelectedStatus] = useState('all');
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
-  const [scannedItem, setScannedItem] = useState<any | null>(null);
+  const [scannedItem, setScannedItem] = useState<InventoryItem | null>(null);
   const [scannedValue, setScannedValue] = useState('');
   const itemsPerPage = 10;
 
@@ -68,21 +68,11 @@ export default function ItemsList() {
   const categories = ['all', ...new Set(inventoryItems.map(item => item.category))];
   const statuses = ['all', ...new Set(inventoryItems.map(item => item.status))];
 
-  // QR Code Scanner functionality
-  const handleQRScanSuccess = (qrCode: string) => {
-    // Find item by QR code
-    const item = getItemByQRCode(qrCode);
-    if (item) {
-      setScannedItem(item);
-      setSearchTerm(item.name);
-    } else {
-      alert(`QR Code "${qrCode}" not found in inventory`);
-    }
-  };
 
 
 
-  const StatCard = ({ title, value, color, icon }: any) => (
+
+  const StatCard = ({ title, value, color, icon }: { title: string; value: number; color: string; icon: React.ReactNode }) => (
     <div className="bg-white p-6 border border-gray-200">
       <div className="flex items-center justify-between">
         <div>

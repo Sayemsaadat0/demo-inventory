@@ -152,11 +152,11 @@ export default function QRScanner({ open, onOpenChange, onScanSuccess }: QRScann
     console.log('Starting QR scan loop...');
     setIsScanning(true);
     let frameCount = 0;
-    let lastScanTime = 0;
+    const lastScanTime = 0;
 
     const scanFrame = () => {
       frameCount++;
-      const now = Date.now();
+
       
       // Log first few frames to confirm loop is running
       if (frameCount <= 5) {

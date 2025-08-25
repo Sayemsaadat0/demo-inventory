@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -46,7 +47,13 @@ export function Navbar() {
                 className="flex mx-3 text-sm bg-black text-white focus:ring-4 focus:ring-black"
               >
                 <span className="sr-only">Open user menu</span>
-                <img className="w-8 h-8" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo" />
+                <Image 
+                  className="w-8 h-8 rounded-full" 
+                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" 
+                  alt="user photo"
+                  width={32}
+                  height={32}
+                />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">

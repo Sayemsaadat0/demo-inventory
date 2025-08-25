@@ -17,7 +17,7 @@ interface QRScanner1Props {
   setValue: (value: string) => void;
 }
 
-export default function QRScanner1({ open, setOpen, value, setValue }: QRScanner1Props) {
+export default function QRScanner1({ open, setOpen, setValue }: QRScanner1Props) {
       const [isScanning, setIsScanning] = useState(false);
       const [showSuccess, setShowSuccess] = useState(false);
    const scannerRef = useRef<Html5QrcodeScanner | null>(null);
@@ -79,12 +79,12 @@ export default function QRScanner1({ open, setOpen, value, setValue }: QRScanner
        );
 
              // Define success callback
-       const onScanSuccess = (decodedText: string, decodedResult: any) => {
+       const onScanSuccess = (decodedText: string) => {
          handleScanSuccess(decodedText);
        };
 
       // Define error callback
-      const onScanError = (errorMessage: string) => {
+      const onScanError = () => {
         // Ignore errors during scanning - they're normal
         // console.log('Scan error:', errorMessage);
       };

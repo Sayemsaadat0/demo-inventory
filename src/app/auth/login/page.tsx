@@ -86,7 +86,7 @@ export default function LoginPage() {
         setIsSuccess(false);
       }, 3000);
       
-    } catch (error) {
+    } catch {
       setErrors({
         general: 'Login failed. Please try again.'
       });
@@ -253,7 +253,7 @@ export default function LoginPage() {
 
             <div className="text-center pt-4">
               <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <a href="/auth/register" className="font-semibold text-black hover:text-gray-600 transition-colors duration-200">
                   Sign up
                 </a>
