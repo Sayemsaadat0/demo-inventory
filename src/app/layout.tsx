@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Inventory Management System",
+  title: "Boiler Plate",
   description: "A comprehensive inventory management system",
 };
 
