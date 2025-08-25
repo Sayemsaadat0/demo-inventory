@@ -1,0 +1,134 @@
+-----------------login Page 
+Build a Next.js 14 (App Router) `/login` page with React Hook Form + Zod validation for email and password. 
+On submit, call `POST /auth/login` (mock if no backend). 
+If successful, store `{ token, user }` in Zustand persisted store and redirect to `/dashboard`.  
+Style: centered card with company logo, email+password inputs, remember me checkbox, and login button. 
+Show inline error messages. 
+Dark-first Tailwind design.
+
+
+
+2. App Layout (Sidebar + Navbar + Logout)
+Build a global layout `(main)/layout.tsx` with persistent sidebar and top navbar using Tailwind + shadcn/ui. 
+- Sidebar: links (Dashboard, Inventory, Sales, Repair, Reports, CRM, Settings) with active state; collapsible on md-; tooltips when collapsed. 
+- Bottom of sidebar: user avatar, name, Logout button (calls doLogout → clears Zustand + query cache, redirects to /login). 
+- Navbar: breadcrumbs from route, global search (Cmd/Ctrl+K), theme toggle.  
+Dark-first palette (#0b1220 background, #121a2a surface, emerald-500 primary).
+
+
+
+
+3. Dashboard Page
+
+Create `/dashboard` page with KPI cards and charts.  
+- KPIs: Today’s Sales, MTD Sales, Gross Margin, Low Stock Items, Open Repairs.  
+- Charts: Recharts Area (Sales last 30 days), Bar (Inventory by Category), Line (Repairs by Status).  
+- Recent Activity: table of last 5 sales orders and last 5 repair tickets.  
+Add skeletons for loading and empty states.  
+Use shadcn Card components and lucide icons.
+
+
+
+Customers (/crm/customers)
+
+DataTable with search (name/phone/email).  
+Columns: Name, Phone, Email, Total Spend, Last Order.  
+Row click → customer profile page.  
+Add Customer modal.
+
+
+Supplier(/crm/supplier)
+
+DataTable with search (name/phone/email).  
+Columns: Name, Phone, Email, Total Spend, Last Order.  
+Row click → Supplier profile page.  
+Add Supplier modal.
+
+
+
+List Page (/inventory)
+Build `/inventory` page with a searchable, filterable, paginated DataTable (shadcn DataTable with TanStack Table).  
+Columns: Name, Category, Unit, Stock on Hand, Min Stock, Sell Price, Actions (View/Edit/Delete).  
+Toolbar: search, category filter, low-stock toggle, import/export buttons.  
+Export CSV/PDF.  
+Row actions → navigate to detail page.
+
+
+
+Detail Page (/inventory/[id])
+Show item details in a Card layout.  
+Tabs: Overview (stock levels, pricing), Movements (in/out history table), Related Sales Orders.  
+Show Low Stock badge if stockOnHand < minStock.  
+Edit/Delete buttons at top right.
+
+
+POS Page (/sales)
+Build a POS screen with:  
+- Left panel: Item search + barcode scanner, list results with Add button.  
+- Right panel: Cart with line items (qty, discount, subtotal), live totals (subtotal, tax, discount, total, paid, due).  
+- Customer picker modal (create customer inline).  
+- Payment modal: choose method (cash/card/etc), handle partial payments.  
+- Finalize sale → save order and show invoice PDF option.  
+Dark, responsive design (cart collapses on mobile).
+
+
+Orders List (/sales/orders)
+Table of past sales orders with columns: Order No, Customer, Salesperson, Date, Status, Total.  
+Filter by status/date.  
+Row click → `/sales/orders/[id]`.  
+Export CSV/PDF.
+
+
+Order Detail (/sales/orders/[id])
+Show full order details: items, payments, totals.  
+Action: Reprint invoice.  
+Layout: two-column (items on left, totals/payments on right).
+
+
+6. Repair Module
+Kanban Page (/repair)
+Kanban board of repair tickets grouped by status (intake, diagnosing, in-progress, ready, delivered).  
+Use dnd-kit for drag and drop between columns.  
+Each card shows ticketNo, customer, device, and status.  
+Click card → `/repair/[id]`.
+
+
+New Ticket (/repair/new)
+Form for creating a repair ticket: Device type, Brand/Model, Serial/IMEI, Issue Description, Customer (select/create), Quoted Amount.  
+On save, redirect to Kanban board with toast.
+
+
+Ticket Detail (/repair/[id])
+Tabs: Overview (device info, issue, status), Work (diagnostics, resolution, parts used from inventory, labor hours/rate), Billing (quoted vs final amount).  
+Buttons: Change Status, Print Job Sheet.  
+Use shadcn Tabs + Form components.
+
+
+
+Sales Report (/reports/sales)
+Page with date range filters (Today, 7d, MTD, Custom).  
+Chart: sales over time (Recharts).  
+Table: sales by order with totals.  
+Export CSV/PDF.  
+Skeleton on load.
+
+
+Inventory Report (/reports/inventory)
+
+Show inventory valuation (cost vs sell), low-stock items list, category breakdown chart.  
+Export CSV/PDF.
+
+
+Repair Report (/reports/repair)
+Show ticket counts by status, average turnaround time chart, top devices repaired.  
+Export CSV/PDF.
+
+
+Settings page with sections:  
+- Company: name, logo upload, address.  
+- Business: currency, default tax, tax inclusive toggle, timezone.  
+- Print: POS/A4 receipt preview.  
+- Users & Roles: list users with role badges (read-only if backend not available).  
+- Theme: light/dark/system toggle.  
+Forms use RHF + Zod.  
+Optimistic save with toast.

@@ -1,103 +1,128 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
+export default function Dashboard() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-black">Dashboard</h1>
+        <p className="mt-2 text-black">Welcome to your inventory management system</p>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Inventory Module */}
+        <div className="bg-white p-6 shadow-sm border border-black hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-4">
+            <div className="p-2 bg-black">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
+            </div>
+            <h2 className="ml-3 text-xl font-semibold text-black">Inventory</h2>
+          </div>
+          <p className="text-black mb-4">Manage your inventory, items, categories, and suppliers</p>
+          <div className="space-y-2">
+            <a href="/inventory" className="block text-black hover:underline">Dashboard</a>
+            <a href="/inventory/items" className="block text-black hover:underline">Items</a>
+            <a href="/inventory/categories" className="block text-black hover:underline">Categories</a>
+            <a href="/inventory/suppliers" className="block text-black hover:underline">Suppliers</a>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Sales Module */}
+        <div className="bg-white p-6 shadow-sm border border-black hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-4">
+            <div className="p-2 bg-green-500">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <h2 className="ml-3 text-xl font-semibold text-black">Sales</h2>
+          </div>
+          <p className="text-black mb-4">Handle sales orders and customer management</p>
+          <div className="space-y-2">
+            <a href="/sales" className="block text-black hover:underline">Dashboard</a>
+            <a href="/sales/orders" className="block text-black hover:underline">Orders</a>
+            <a href="/sales/customers" className="block text-black hover:underline">Customers</a>
+          </div>
+        </div>
+
+        {/* Repairs Module */}
+        <div className="bg-white p-6 shadow-sm border border-black hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-4">
+            <div className="p-2 bg-yellow-500">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h2 className="ml-3 text-xl font-semibold text-black">Repairs</h2>
+          </div>
+          <p className="text-black mb-4">Manage repair tickets and technicians</p>
+          <div className="space-y-2">
+            <a href="/repairs" className="block text-black hover:underline">Dashboard</a>
+            <a href="/repairs/tickets" className="block text-black hover:underline">Tickets</a>
+            <a href="/repairs/technicians" className="block text-black hover:underline">Technicians</a>
+          </div>
+        </div>
+
+        {/* Purchases Module */}
+        <div className="bg-white p-6 shadow-sm border border-black hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-4">
+            <div className="p-2 bg-red-500">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+            </div>
+            <h2 className="ml-3 text-xl font-semibold text-black">Purchases</h2>
+          </div>
+          <p className="text-black mb-4">Handle purchase orders and vendor management</p>
+          <div className="space-y-2">
+            <a href="/purchases" className="block text-black hover:underline">Dashboard</a>
+            <a href="/purchases/orders" className="block text-black hover:underline">Orders</a>
+            <a href="/purchases/vendors" className="block text-black hover:underline">Vendors</a>
+          </div>
+        </div>
+
+        {/* Reports Module */}
+        <div className="bg-white p-6 shadow-sm border border-black hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-4">
+            <div className="p-2 bg-black">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h2 className="ml-3 text-xl font-semibold text-black">Reports</h2>
+          </div>
+          <p className="text-black mb-4">View analytics and generate reports</p>
+          <div className="space-y-2">
+            <a href="/reports" className="block text-black hover:underline">Dashboard</a>
+            <a href="/reports/sales" className="block text-black hover:underline">Sales Reports</a>
+            <a href="/reports/inventory" className="block text-black hover:underline">Inventory Reports</a>
+          </div>
+        </div>
+
+        {/* Settings Module */}
+        <div className="bg-white p-6 shadow-sm border border-black hover:shadow-md transition-shadow">
+          <div className="flex items-center mb-4">
+            <div className="p-2 bg-black">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </div>
+            <h2 className="ml-3 text-xl font-semibold text-black">Settings</h2>
+          </div>
+          <p className="text-black mb-4">Manage users, roles, and preferences</p>
+          <div className="space-y-2">
+            <a href="/settings/profile" className="block text-black hover:underline">Profile</a>
+            <a href="/settings/users" className="block text-black hover:underline">Users</a>
+            <a href="/settings/roles" className="block text-black hover:underline">Roles</a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
