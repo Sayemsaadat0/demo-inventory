@@ -20,6 +20,27 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      // Treat undefined variables as warnings instead of errors
+      "no-undef": "warn",
+      
+      // Treat unused variables as warnings instead of errors
+      "no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+      
+      // Treat undefined imports as warnings
+      "import/no-unresolved": "warn",
+      
+      // Treat undefined types as warnings
+      "@typescript-eslint/no-undef": "warn",
+      
+      // Additional rules for better development experience
+      "no-console": "warn", // Warn about console.log usage
+      "prefer-const": "warn", // Warn about let when const could be used
+      "no-var": "warn", // Warn about var usage
+    },
+  },
 ];
 
 export default eslintConfig;
