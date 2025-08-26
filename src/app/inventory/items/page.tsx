@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import {
   inventoryItems,
   inventoryStats,
@@ -36,7 +37,7 @@ export default function ItemsList() {
         // If not found by QR code, try searching by the scanned value
         const foundItem = inventoryItems.find(item => 
           item.name.toLowerCase().includes(value.toLowerCase()) ||
-          item.sku.toLowerCase().includes(value.toLowerCase()) ||
+          item.barcode.toLowerCase().includes(value.toLowerCase()) ||
           (item.qrCode && item.qrCode.toLowerCase().includes(value.toLowerCase()))
         );
         
@@ -103,9 +104,12 @@ export default function ItemsList() {
           <h1 className="text-3xl font-bold text-gray-900">Inventory Items</h1>
           <p className="text-gray-600 mt-2">Manage your inventory items and track stock levels</p>
         </div>
-        <button className="bg-blue-600 text-white px-6 py-3 border border-blue-700 hover:bg-blue-700 transition-colors font-medium">
+        <Link
+          href="/inventory/items/add"
+          className="bg-blue-600 text-white px-6 py-3 border border-blue-700 hover:bg-blue-700 transition-colors font-medium rounded"
+        >
           Add New Item
-        </button>
+        </Link>
       </div>
 
              {/* QR Scanner Component */}
@@ -122,7 +126,7 @@ export default function ItemsList() {
            <div className="flex items-center justify-between">
              <div>
                <h4 className="text-green-800 font-semibold">Item Found!</h4>
-               <p className="text-green-700">{scannedItem.name} - {scannedItem.sku}</p>
+               <p className="text-green-700">{scannedItem.name} - {scannedItem.barcode}</p>
                <p className="text-green-600 text-sm">Quantity: {scannedItem.quantity} {scannedItem.unit} | Status: {scannedItem.status}</p>
              </div>
              <button
@@ -183,12 +187,12 @@ export default function ItemsList() {
           }
         />
         <StatCard
-          title="Suppliers"
-          value={inventoryStats.suppliers}
+          title="Total Value"
+          value={inventoryStats.totalValue}
           color="bg-purple-100"
           icon={
             <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
             </svg>
           }
         />
@@ -272,13 +276,11 @@ export default function ItemsList() {
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">SL</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Item Name</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">SKU</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Barcode</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Price</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Category</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Quantity</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Supplier</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Location</th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
               </tr>
             </thead>
@@ -294,9 +296,11 @@ export default function ItemsList() {
                       <div className="text-sm text-gray-500">ID: {item.id}</div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{item.sku}</td>
                   <td className="px-6 py-4 text-sm text-gray-900 font-mono">
-                    {item.qrCode ? item.qrCode.replace(/[^A-Za-z0-9]/g, '').substring(0, 12).padEnd(12, '0') : '000000000000'}
+                    {item.barcode}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+                    ${item.price.toFixed(2)}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900">{item.category}</td>
                   <td className="px-6 py-4 text-sm font-medium text-gray-900">{item.quantity} {item.unit}</td>
@@ -305,8 +309,6 @@ export default function ItemsList() {
                       {item.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{item.supplier}</td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{item.location}</td>
                   <td className="px-6 py-4">
                     <div className="flex space-x-2">
                       <button
