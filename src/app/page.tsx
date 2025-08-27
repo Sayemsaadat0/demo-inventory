@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { 
   dashboardStats, 
-  salesData, 
   inventoryData, 
   stores, 
   recentActivity 
@@ -102,17 +101,7 @@ export default function Dashboard() {
             </svg>
           }
         />
-        <StatCard
-          title="Sales Orders"
-          value={dashboardStats.totalSales}
-          change={8}
-          color="bg-green-100"
-          icon={
-            <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-          }
-        />
+
         <StatCard
           title="Purchase Orders"
           value={dashboardStats.totalPurchases}
@@ -140,25 +129,10 @@ export default function Dashboard() {
 
       {/* Charts and Additional Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Sales Chart */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Sales Quantity Trend</h3>
-          <div className="h-64 flex items-end justify-between space-x-2">
-            {salesData.map((data, index) => (
-              <div key={index} className="flex-1 flex flex-col items-center">
-                <div 
-                  className="w-full bg-gradient-to-t from-blue-500 to-blue-300 rounded-t-lg"
-                  style={{ height: `${(data.quantity / 100) * 200}px` }}
-                ></div>
-                <span className="text-xs text-gray-600 mt-2">{data.month}</span>
-                <span className="text-xs font-medium text-gray-900">{data.quantity} units</span>
-              </div>
-            ))}
-          </div>
-        </div>
+
 
         {/* Inventory by Category */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Inventory by Category</h3>
           <div className="space-y-4">
             {inventoryData.map((category, index) => (
@@ -221,7 +195,7 @@ export default function Dashboard() {
                 <span className="font-medium text-blue-900">Add New Item</span>
               </div>
             </Link>
-            <Link href="/sales/orders/new" className="block w-full text-left p-3 bg-green-50 hover:bg-green-100 rounded-colors">
+            <Link href="/sales/orders/new" className="block w-full text-left p-3 bg-green-50 hover:bg-green-100 rounded-lg transition-colors">
               <div className="flex items-center space-x-3">
                 <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />

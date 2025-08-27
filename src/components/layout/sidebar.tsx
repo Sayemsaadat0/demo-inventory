@@ -34,7 +34,6 @@ const sidebarItems: SidebarItem[] = [
     children: [
       { name: 'Items', href: '/inventory/items' },
       { name: 'Categories', href: '/inventory/categories' },
-      { name: 'Suppliers', href: '/inventory/suppliers' },
       { name: 'Units', href: '/inventory/units' }
     ]
   },
@@ -47,7 +46,7 @@ const sidebarItems: SidebarItem[] = [
       </svg>
     ),
     children: [
-      { name: 'Dashboard', href: '/sales' },
+      { name: 'Pos', href: '/sales/sales' },
       { name: 'Orders', href: '/sales/orders' },
       { name: 'Customers', href: '/sales/customers' }
     ]

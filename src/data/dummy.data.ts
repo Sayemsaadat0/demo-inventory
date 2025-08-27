@@ -20,10 +20,7 @@ export interface InventoryStats {
   totalValue: number;
 }
 
-export interface SalesData {
-  month: string;
-  quantity: number;
-}
+
 
 export interface InventoryCategory {
   category: string;
@@ -48,35 +45,28 @@ export interface Activity {
 
 export interface DashboardStats {
   totalItems: number;
-  totalSales: number;
+
   totalPurchases: number;
   totalRepairs: number;
   totalStores: number;
   totalCustomers: number;
-  totalSuppliers: number;
+
   totalTechnicians: number;
 }
 
 // Dashboard data
 export const dashboardStats: DashboardStats = {
   totalItems: 1247,
-  totalSales: 342,
+
   totalPurchases: 156,
   totalRepairs: 89,
   totalStores: 3,
   totalCustomers: 342,
-  totalSuppliers: 28,
+
   totalTechnicians: 12
 };
 
-export const salesData: SalesData[] = [
-  { month: 'Jan', quantity: 45 },
-  { month: 'Feb', quantity: 52 },
-  { month: 'Mar', quantity: 67 },
-  { month: 'Apr', quantity: 38 },
-  { month: 'May', quantity: 78 },
-  { month: 'Jun', quantity: 89 }
-];
+
 
 export const inventoryData: InventoryCategory[] = [
   { category: 'Electronics', items: 450, quantity: 1250 },

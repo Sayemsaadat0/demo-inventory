@@ -206,7 +206,7 @@ export default function ItemsList() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search items, SKU, or supplier..."
+                placeholder="Search items, barcode, or QR code..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-4 py-2 pr-12 border border-gray-300 focus:outline-none focus:border-blue-500"

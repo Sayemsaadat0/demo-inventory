@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Html5QrcodeScanner, Html5QrcodeScanType } from 'html5-qrcode';
 import {
   Dialog,
@@ -32,75 +32,89 @@ export default function QRScanner1({ open, setOpen, setValue }: QRScanner1Props)
       }
     };
 
-                       // Handle scan success - update parent value and show success notification
-     const handleScanSuccess = (decodedText: string) => {
-       console.log('QR Code detected:', decodedText);
-       
-       // Update parent value
-       setValue(decodedText);
-       
-       // Show success notification
-       setShowSuccess(true);
-       
-       // Play success sound
-       if (audioRef.current) {
-         audioRef.current.play().catch(err => console.log('Audio play failed:', err));
-       }
-       
-       // Hide success notification after 2 seconds
-       setTimeout(() => {
-         setShowSuccess(false);
-       }, 2000);
-     };
+                                               // Handle scan success - update parent value and show success notification
+      const handleScanSuccess = useCallback((decodedText: string) => {
+        console.log('QR Code detected:', decodedText);
+        
+        // Update parent value
+        setValue(decodedText);
+        
+        // Show success notification
+        setShowSuccess(true);
+        
+        // Play success sound
+        if (audioRef.current) {
+          audioRef.current.play().catch(err => console.log('Audio play failed:', err));
+        }
+        
+        // Hide success notification after 2 seconds
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 2000);
+      }, [setValue]);
 
-  const startScanner = () => {
-    if (scannerRef.current || !containerRef.current) {
-      console.log('Scanner already running or container not available');
-      return;
-    }
+     const startScanner = useCallback(() => {
+     if (scannerRef.current || !containerRef.current) {
+       console.log('Scanner already running or container not available');
+       return;
+     }
 
-    console.log('Starting HTML5 QR Scanner...');
-    setIsScanning(true);
+     console.log('Starting HTML5 QR Scanner...');
+     console.log('Container ref:', containerRef.current);
+     console.log('Dialog open:', open);
+     setIsScanning(true);
 
-    try {
-             // Create new scanner instance
-       scannerRef.current = new Html5QrcodeScanner(
-         "qr-reader", // Element ID
-         {
-           fps: 15, // Higher frames per second for better performance
-           qrbox: { width: 300, height: 300 }, // Larger QR code detection area
-           aspectRatio: 1.0, // Square aspect ratio
-           supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA], // Only camera scanning
-           showTorchButtonIfSupported: true, // Show torch button if supported
-           showZoomSliderIfSupported: true, // Show zoom slider if supported
-           rememberLastUsedCamera: true, // Remember last used camera
-         },
-         false // Verbose logging
-       );
+     try {
+              // Create new scanner instance
+        scannerRef.current = new Html5QrcodeScanner(
+          "qr-reader", // Element ID
+          {
+            fps: 15, // Higher frames per second for better performance
+            qrbox: { width: 300, height: 300 }, // Larger QR code detection area
+            aspectRatio: 1.0, // Square aspect ratio
+            supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA], // Only camera scanning
+            showTorchButtonIfSupported: true, // Show torch button if supported
+            showZoomSliderIfSupported: true, // Show zoom slider if supported
+            rememberLastUsedCamera: true, // Remember last used camera
+          },
+          false // Verbose logging
+        );
 
-             // Define success callback
-       const onScanSuccess = (decodedText: string) => {
-         handleScanSuccess(decodedText);
+              // Define success callback
+        const onScanSuccess = (decodedText: string) => {
+          handleScanSuccess(decodedText);
+        };
+
+       // Define error callback
+       const onScanError = () => {
+         // Ignore errors during scanning - they're normal
+         // console.log('Scan error:', errorMessage);
        };
 
-      // Define error callback
-      const onScanError = () => {
-        // Ignore errors during scanning - they're normal
-        // console.log('Scan error:', errorMessage);
-      };
+       // Start the scanner
+       scannerRef.current.render(onScanSuccess, onScanError);
+       
+       console.log('HTML5 QR Scanner started successfully');
+     } catch (error) {
+       console.error('Error starting HTML5 QR Scanner:', error);
+       setIsScanning(false);
+       
+       // Check for specific error types
+       if (error instanceof Error) {
+         if (error.message.includes('Permission')) {
+           alert('Camera permission denied. Please allow camera access and try again.');
+         } else if (error.message.includes('NotFound')) {
+           alert('No camera found. Please check your device has a camera.');
+         } else {
+           alert(`Error starting QR scanner: ${error.message}`);
+         }
+       } else {
+         alert('Error starting QR scanner. Please try again.');
+       }
+     }
+   }, [open, handleScanSuccess]);
 
-      // Start the scanner
-      scannerRef.current.render(onScanSuccess, onScanError);
-      
-      console.log('HTML5 QR Scanner started successfully');
-    } catch (error) {
-      console.error('Error starting HTML5 QR Scanner:', error);
-      setIsScanning(false);
-      alert('Error starting QR scanner. Please try again.');
-    }
-  };
-
-  const stopScanner = () => {
+  const stopScanner = useCallback(() => {
     if (scannerRef.current) {
       console.log('Stopping HTML5 QR Scanner...');
       try {
@@ -111,7 +125,7 @@ export default function QRScanner1({ open, setOpen, setValue }: QRScanner1Props)
       }
     }
     setIsScanning(false);
-  };
+  }, []);
 
   // Handle scanner lifecycle
   useEffect(() => {
@@ -119,20 +133,20 @@ export default function QRScanner1({ open, setOpen, setValue }: QRScanner1Props)
       // Start scanner when dialog opens with a small delay
       const timer = setTimeout(() => {
         startScanner();
-      }, 500);
+      }, 1000);
       
       return () => clearTimeout(timer);
     } else if (!open) {
       stopScanner();
     }
-  }, [open]);
+  }, [open, startScanner, stopScanner]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       stopScanner();
     };
-  }, []);
+  }, [stopScanner]);
 
      return (
           <Dialog open={open} onOpenChange={handleDialogOpenChange}>
@@ -231,10 +245,10 @@ export default function QRScanner1({ open, setOpen, setValue }: QRScanner1Props)
            <p className="text-xs text-gray-600 font-medium">
              {isScanning 
                ? "Point your camera at any QR code to scan" 
-               : "Click 'Start Scanner' to begin QR code detection"
+               : "Initializing camera..."
              }
            </p>
-                       <p className="text-xs text-gray-500 mt-1">
+           <p className="text-xs text-gray-500 mt-1">
               Scanned values will be sent to parent component
             </p>
          </div>
