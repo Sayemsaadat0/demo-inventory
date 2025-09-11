@@ -32,7 +32,7 @@ export function MainLayout({ children }: MainLayoutProps) {
       {/* Overlay for mobile */}
       {!isSidebarCollapsed && (
         <div 
-          className="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-30 bg-black/20 bg-opacity-50 lg:hidden"
           onClick={() => setIsSidebarCollapsed(true)}
         />
       )}

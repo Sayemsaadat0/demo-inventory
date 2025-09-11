@@ -74,14 +74,16 @@ export default function ItemsList() {
 
 
   const StatCard = ({ title, value, color, icon }: { title: string; value: number; color: string; icon: React.ReactNode }) => (
-    <div className="bg-white p-6 border border-gray-200">
+    <div className="bg-white p-4 sm:p-6 border border-gray-200 rounded-lg">
       <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600">{title}</p>
-          <p className="text-3xl font-bold text-gray-900 mt-2">{value.toLocaleString()}</p>
+        <div className="flex-1 min-w-0">
+          <p className="text-xs sm:text-sm font-medium text-gray-600 truncate">{title}</p>
+          <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mt-1 sm:mt-2">{value.toLocaleString()}</p>
         </div>
-        <div className={`p-3 ${color}`}>
-          {icon}
+        <div className={`p-2 sm:p-3 ${color} rounded-lg flex-shrink-0 ml-2`}>
+          <div className="w-5 h-5 sm:w-6 sm:h-6">
+            {icon}
+          </div>
         </div>
       </div>
     </div>
@@ -97,20 +99,29 @@ export default function ItemsList() {
   };
 
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Inventory Items</h1>
-          <p className="text-gray-600 mt-2">Manage your inventory items and track stock levels</p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Mobile App Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
+        <div className="px-4 py-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Inventory Items</h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">Manage your inventory items and track stock levels</p>
+            </div>
+            <div className="mt-4 sm:mt-0">
+              <Link
+                href="/inventory/items/add"
+                className="block w-full sm:w-auto bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 border border-blue-700 hover:bg-blue-700 transition-colors font-medium rounded text-center"
+              >
+                Add New Item
+              </Link>
+            </div>
+          </div>
         </div>
-        <Link
-          href="/inventory/items/add"
-          className="bg-blue-600 text-white px-6 py-3 border border-blue-700 hover:bg-blue-700 transition-colors font-medium rounded"
-        >
-          Add New Item
-        </Link>
       </div>
+
+      {/* Main Content */}
+      <div className="px-4 py-6 sm:px-6 space-y-4 sm:space-y-6">
 
              {/* QR Scanner Component */}
        <QRScanner1
@@ -144,8 +155,8 @@ export default function ItemsList() {
          </div>
        )}
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
         <StatCard
           title="Total Items"
           value={inventoryStats.totalItems}
@@ -198,9 +209,9 @@ export default function ItemsList() {
         />
       </div>
 
-      {/* Filters and Search */}
-      <div className="bg-white p-6 border border-gray-200">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* Filters and Search */}
+        <div className="bg-white p-4 sm:p-6 border border-gray-200 rounded-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
             <div className="relative">
@@ -268,106 +279,109 @@ export default function ItemsList() {
         </div>
       </div>
 
-      {/* Items Table */}
-      <div className="bg-white border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">SL</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Item Name</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Barcode</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Price</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Category</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Quantity</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Status</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {currentItems.map((item, index) => (
-                <tr key={item.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-6 py-4 text-sm text-gray-900 font-medium">
-                    {startIndex + index + 1}
-                  </td>
-                  <td className="px-6 py-4">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                      <div className="text-sm text-gray-500">ID: {item.id}</div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900 font-mono">
-                    {item.barcode}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900 font-medium">
-                    ${item.price.toFixed(2)}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">{item.category}</td>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-900">{item.quantity} {item.unit}</td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex px-2 py-1 text-xs font-medium border ${getStatusColor(item.status)}`}>
-                      {item.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex space-x-2">
-                      <button
-                        className="text-blue-600 hover:text-blue-800 p-1 border border-transparent hover:border-blue-200 hover:bg-blue-50 transition-colors"
-                        title="Edit"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </button>
-                      <button
-                        className="text-red-600 hover:text-red-800 p-1 border border-transparent hover:border-red-200 hover:bg-red-50 transition-colors"
-                        title="Delete"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
-                    </div>
-                  </td>
+        {/* Items Table */}
+        <div className="bg-white border border-gray-200 overflow-hidden rounded-lg">
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900">SL</th>
+                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900">Item Name</th>
+                  <th className="hidden sm:table-cell px-6 py-4 text-left text-sm font-semibold text-gray-900">Barcode</th>
+                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900">Price</th>
+                  <th className="hidden md:table-cell px-6 py-4 text-left text-sm font-semibold text-gray-900">Category</th>
+                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900">Qty</th>
+                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900">Status</th>
+                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-semibold text-gray-900">Actions</th>
                 </tr>
-              ))}
-            </tbody>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {currentItems.map((item, index) => (
+                  <tr key={item.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-900 font-medium">
+                      {startIndex + index + 1}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <div>
+                        <div className="text-xs sm:text-sm font-medium text-gray-900 truncate">{item.name}</div>
+                        <div className="text-xs text-gray-500">ID: {item.id}</div>
+                        <div className="sm:hidden text-xs text-gray-500 font-mono">{item.barcode}</div>
+                        <div className="md:hidden text-xs text-gray-500">{item.category}</div>
+                      </div>
+                    </td>
+                    <td className="hidden sm:table-cell px-6 py-4 text-sm text-gray-900 font-mono">
+                      {item.barcode}
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm text-gray-900 font-medium">
+                      ${item.price.toFixed(2)}
+                    </td>
+                    <td className="hidden md:table-cell px-6 py-4 text-sm text-gray-900">{item.category}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4 text-xs sm:text-sm font-medium text-gray-900">{item.quantity} {item.unit}</td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${getStatusColor(item.status)}`}>
+                        {item.status}
+                      </span>
+                    </td>
+                    <td className="px-3 sm:px-6 py-3 sm:py-4">
+                      <div className="flex space-x-1 sm:space-x-2">
+                        <button
+                          className="text-blue-600 hover:text-blue-800 p-1 border border-transparent hover:border-blue-200 hover:bg-blue-50 transition-colors"
+                          title="Edit"
+                        >
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
+                        </button>
+                        <button
+                          className="text-red-600 hover:text-red-800 p-1 border border-transparent hover:border-red-200 hover:bg-red-50 transition-colors"
+                          title="Delete"
+                        >
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
           </table>
         </div>
 
-        {/* Pagination */}
-        <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-gray-700">
-              Showing {startIndex + 1} to {Math.min(endIndex, filteredItems.length)} of {filteredItems.length} results
-            </div>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Previous
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          {/* Pagination */}
+          <div className="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+              <div className="text-xs sm:text-sm text-gray-700">
+                Showing {startIndex + 1} to {Math.min(endIndex, filteredItems.length)} of {filteredItems.length} results
+              </div>
+              <div className="flex space-x-1 sm:space-x-2">
                 <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-3 py-2 text-sm font-medium ${currentPage === page
-                    ? 'bg-blue-600 text-white border border-blue-700'
-                    : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
-                    }`}
+                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                  disabled={currentPage === 1}
+                  className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed rounded"
                 >
-                  {page}
+                  Previous
                 </button>
-              ))}
-              <button
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Next
-              </button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium rounded ${currentPage === page
+                      ? 'bg-blue-600 text-white border border-blue-700'
+                      : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50'
+                      }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                  disabled={currentPage === totalPages}
+                  className="px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed rounded"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         </div>
