@@ -34,7 +34,6 @@ const sidebarItems: SidebarItem[] = [
     children: [
       { name: 'Items', href: '/inventory/items' },
       { name: 'Categories', href: '/inventory/categories' },
-      { name: 'Suppliers', href: '/inventory/suppliers' },
       { name: 'Units', href: '/inventory/units' }
     ]
   },
@@ -47,9 +46,22 @@ const sidebarItems: SidebarItem[] = [
       </svg>
     ),
     children: [
-      { name: 'Dashboard', href: '/sales' },
+      { name: 'Pos', href: '/sales/sales' },
       { name: 'Orders', href: '/sales/orders' },
       { name: 'Customers', href: '/sales/customers' }
+    ]
+  },
+  {
+    name: 'Purchases',
+    href: '/purchases',
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m6-5v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6m6 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01" />
+      </svg>
+    ),
+    children: [
+      { name: 'Purchase', href: '/purchases' },
+      { name: 'Suppliers', href: '/purchases/suppliers' }
     ]
   },
   {
@@ -67,20 +79,7 @@ const sidebarItems: SidebarItem[] = [
       { name: 'Technicians', href: '/repairs/technicians' }
     ]
   },
-  {
-    name: 'Purchases',
-    href: '/purchases',
-    icon: (
-      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-      </svg>
-    ),
-    children: [
-      { name: 'Dashboard', href: '/purchases' },
-      { name: 'Orders', href: '/purchases/orders' },
-      { name: 'Vendors', href: '/purchases/vendors' }
-    ]
-  },
+
   {
     name: 'Reports',
     href: '/reports',
@@ -110,7 +109,26 @@ const sidebarItems: SidebarItem[] = [
       { name: 'Profile', href: '/settings/profile' },
       { name: 'Users', href: '/settings/users' },
       { name: 'Roles', href: '/settings/roles' },
-      { name: 'Preferences', href: '/settings/preferences' }
+      { name: 'Preferences', href: '/settings/preferences' },
+      { name: 'Security', href: '/settings/security' },
+      { name: 'Notifications', href: '/settings/notifications' },
+      { name: 'Backup', href: '/settings/backup' },
+      { name: 'Integrations', href: '/settings/integrations' }
+    ]
+  },
+  {
+    name: 'Help & Support',
+    href: '/help',
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+    children: [
+      { name: 'Documentation', href: '/help/docs' },
+      { name: 'FAQ', href: '/help/faq' },
+      { name: 'Contact Support', href: '/help/contact' },
+      { name: 'Tutorials', href: '/help/tutorials' }
     ]
   }
 ]
@@ -133,10 +151,10 @@ export function Sidebar({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean;
   }
 
   return (
-    <aside className={`fixed top-16 left-0 z-40 h-screen transition-all duration-300 ${
+    <aside className={`fixed top-16 left-0 z-40 h-[calc(100vh-4rem)] transition-all duration-300 ${
       isCollapsed ? 'w-16' : 'w-64'
-    } bg-white border-r border-gray-300`}>
-      <div className="h-full px-3 py-4 overflow-y-auto">
+    } bg-white border-r border-gray-300 flex flex-col`}>
+      <div className="flex-1 px-3 py-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
         <div className="flex items-center justify-between mb-4">
           {!isCollapsed && (
             <h2 className="text-lg font-semibold text-black">Menu</h2>

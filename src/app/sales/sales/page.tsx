@@ -59,7 +59,6 @@ export default function SalesPage() {
   const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
   const [qrValue, setQrValue] = useState('');
   const [isAddCustomerDialogOpen, setIsAddCustomerDialogOpen] = useState(false);
-  const [isStatusCompleted, setIsStatusCompleted] = useState(true); // Default to completed
   const customerSearchRef = useRef<HTMLDivElement>(null);
 
   const filteredProducts = inventoryItems.filter(item =>
@@ -213,7 +212,6 @@ export default function SalesPage() {
         customer: selectedCustomer,
         items: cart,
         totalAmount: getTotalAmount(),
-        status: isStatusCompleted ? 'completed' : 'pending',
         timestamp: new Date().toISOString()
       };
       
@@ -224,7 +222,6 @@ export default function SalesPage() {
       setCart([]);
       setSelectedCustomer(null);
       setCustomerSearchTerm('');
-      setIsStatusCompleted(true); // Reset to completed
       
       // Hide success message after 2 seconds
       setTimeout(() => {
@@ -330,59 +327,59 @@ export default function SalesPage() {
                     <th className="px-6 py-4 text-left text-xs font-medium text-black/70 w-20">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-black/10">
-                  {filteredProducts.map((product) => (
-                    <tr 
-                      key={product.id} 
-                      className="hover:bg-black/5 cursor-pointer transition-colors"
-                      onClick={() => product.quantity > 0 && addToCart(product)}
-                      title={product.quantity > 0 ? "Click to add to cart" : "Out of stock"}
-                    >
-                      <td className="px-6 py-4">
-                        <div>
-                          <div className="text-sm font-medium text-black">{product.name}</div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-black/70 font-mono">{product.barcode}</div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-black/5 text-black/70">
-                          {product.category}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm font-medium text-black">${product.price.toFixed(2)}</div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="flex items-center">
-                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            product.status === 'In Stock' ? 'bg-green-100 text-green-800' :
-                            product.status === 'Low Stock' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-red-100 text-red-800'
-                          }`}>
-                            {product.quantity} {product.unit}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-black/50">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                          </svg>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+                                 <tbody className="divide-y divide-black/10">
+                   {filteredProducts.map((product) => (
+                     <tr 
+                       key={product.id} 
+                       className="hover:bg-black/5 cursor-pointer transition-colors"
+                       onClick={() => product.quantity > 0 && addToCart(product)}
+                       title={product.quantity > 0 ? "Click to add to cart" : "Out of stock"}
+                     >
+                       <td className="px-6 py-4">
+                         <div>
+                           <div className="text-sm font-medium text-black">{product.name}</div>
+                         </div>
+                       </td>
+                       <td className="px-6 py-4">
+                         <div className="text-sm text-black/70 font-mono">{product.barcode}</div>
+                       </td>
+                       <td className="px-6 py-4">
+                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-black/5 text-black/70">
+                           {product.category}
+                         </span>
+                       </td>
+                       <td className="px-6 py-4">
+                         <div className="text-sm font-medium text-black">${product.price.toFixed(2)}</div>
+                       </td>
+                       <td className="px-6 py-4">
+                         <div className="flex items-center">
+                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                             product.status === 'In Stock' ? 'bg-green-100 text-green-800' :
+                             product.status === 'Low Stock' ? 'bg-yellow-100 text-yellow-800' :
+                             'bg-red-100 text-red-800'
+                           }`}>
+                             {product.quantity} {product.unit}
+                           </span>
+                         </div>
+                       </td>
+                       <td className="px-6 py-4">
+                         <div className="text-black/50">
+                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                           </svg>
+                         </div>
+                       </td>
+                     </tr>
+                   ))}
+                 </tbody>
               </table>
             </div>
           </div>
         </div>
 
-        {/* Sales Form - 1 column */}
-        <div className="lg:col-span-1">
-          <div className="bg-white border border-black/10 sticky top-20 max-h-[calc(100vh-2rem)] overflow-y-auto">
+                 {/* Sales Form - 1 column */}
+         <div className="lg:col-span-1">
+           <div className="bg-white border border-black/10 sticky top-20  max-h-[calc(100vh-2rem)] overflow-y-auto">
             {/* Form Header */}
             <div className="p-6 border-b border-black/10">
               <h2 className="text-lg font-semibold text-black">Sales Form</h2>
@@ -403,123 +400,103 @@ export default function SalesPage() {
             {/* Form Content */}
             <div className="p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Customer Information */}
-                <div className="space-y-4">
-                  <h3 className="text-sm font-medium text-black">Customer Information</h3>
-                  <div className="flex space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsQRScannerOpen(true)}
-                      className="flex-1 px-3 py-2 border border-black/20 text-sm hover:bg-black/5 transition-colors flex items-center justify-center space-x-2"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V6a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1zm12 0h2a1 1 0 001-1V6a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1zM5 20h2a1 1 0 001-1v-1a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1z" />
-                      </svg>
-                      <span>Scan QR</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleDemoScan}
-                      className="px-3 py-2 border border-black/20 text-sm hover:bg-black/5 transition-colors flex items-center justify-center space-x-2"
-                      title="Demo scan with barcode: 123456789012"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                      </svg>
-                      <span>Demo</span>
-                    </button>
-                  </div>
-                  
-                  {/* Customer Search and Select */}
-                  <div className="relative" ref={customerSearchRef}>
-                    <label className="block text-xs font-medium text-black/70 mb-1">Select Customer *</label>
-                    <div className="flex space-x-2">
-                      <div className="flex-1 relative">
-                        <input
-                          type="text"
-                          value={selectedCustomer ? selectedCustomer.name : customerSearchTerm}
-                          onChange={(e) => {
-                            setCustomerSearchTerm(e.target.value);
-                            setSelectedCustomer(null);
-                            setIsCustomerDropdownOpen(true);
-                          }}
-                          onFocus={() => setIsCustomerDropdownOpen(true)}
-                          className="w-full px-3 py-2 border border-black/20 text-sm focus:outline-none focus:border-black/40"
-                          placeholder="Search customers..."
-                        />
-                        {selectedCustomer && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setSelectedCustomer(null);
-                              setCustomerSearchTerm('');
-                            }}
-                            className="absolute right-2 top-2 text-black/40 hover:text-black/60"
-                          >
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </button>
-                        )}
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setIsAddCustomerDialogOpen(true)}
-                        className="px-3 py-2 border border-black/20 text-sm hover:bg-black/5 transition-colors flex items-center justify-center"
-                        title="Add new customer"
-                      >
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                        </svg>
-                      </button>
-                    </div>
-                    
-                    {/* Customer Dropdown */}
-                    {isCustomerDropdownOpen && customerSearchTerm && (
-                      <div className="absolute z-50 w-full mt-1 bg-white border border-black/20 shadow-lg max-h-48 overflow-y-auto">
-                        {filteredCustomers.length > 0 ? (
-                          filteredCustomers.map((customer) => (
-                            <button
-                              key={customer.id}
-                              type="button"
-                              onClick={() => {
-                                setSelectedCustomer(customer);
-                                setCustomerSearchTerm('');
-                                setIsCustomerDropdownOpen(false);
-                              }}
-                              className="w-full px-3 py-2 text-left hover:bg-black/5 text-sm"
-                            >
-                              <div className="font-medium text-black">{customer.name}</div>
-                              <div className="text-xs text-black/50">{customer.email}</div>
-                            </button>
-                          ))
-                        ) : (
-                          <div className="px-3 py-2 text-sm text-black/50">No customers found</div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Status Checkbox */}
-                <div className="space-y-2">
-                  <h3 className="text-sm font-medium text-black">Sale Status</h3>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="status-completed"
-                      checked={isStatusCompleted}
-                      onChange={(e) => setIsStatusCompleted(e.target.checked)}
-                      className="w-4 h-4 text-black border-black/20 focus:ring-black/20"
-                    />
-                    <label htmlFor="status-completed" className="text-sm text-black/70">
-                      Mark as completed
-                    </label>
-                  </div>
-                  <p className="text-xs text-black/50">
-                    {isStatusCompleted ? 'Sale will be marked as completed' : 'Sale will be marked as pending'}
-                  </p>
-                </div>
+                                 {/* Customer Information */}
+                 <div className="space-y-4">
+                   <h3 className="text-sm font-medium text-black">Customer Information</h3>
+                   <div className="flex space-x-2">
+                     <button
+                       type="button"
+                       onClick={() => setIsQRScannerOpen(true)}
+                       className="flex-1 px-3 py-2 border border-black/20 text-sm hover:bg-black/5 transition-colors flex items-center justify-center space-x-2"
+                     >
+                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V6a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1zm12 0h2a1 1 0 001-1V6a1 1 0 00-1-1h-2a1 1 0 00-1 1v1a1 1 0 001 1zM5 20h2a1 1 0 001-1v-1a1 1 0 00-1-1H5a1 1 0 00-1 1v1a1 1 0 001 1z" />
+                       </svg>
+                       <span>Scan QR</span>
+                     </button>
+                     <button
+                       type="button"
+                       onClick={handleDemoScan}
+                       className="px-3 py-2 border border-black/20 text-sm hover:bg-black/5 transition-colors flex items-center justify-center space-x-2"
+                       title="Demo scan with barcode: 123456789012"
+                     >
+                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                       </svg>
+                       <span>Demo</span>
+                     </button>
+                   </div>
+                   
+                   {/* Customer Search and Select */}
+                   <div className="relative" ref={customerSearchRef}>
+                     <label className="block text-xs font-medium text-black/70 mb-1">Select Customer *</label>
+                     <div className="flex space-x-2">
+                       <div className="flex-1 relative">
+                         <input
+                           type="text"
+                           value={selectedCustomer ? selectedCustomer.name : customerSearchTerm}
+                           onChange={(e) => {
+                             setCustomerSearchTerm(e.target.value);
+                             setSelectedCustomer(null);
+                             setIsCustomerDropdownOpen(true);
+                           }}
+                           onFocus={() => setIsCustomerDropdownOpen(true)}
+                           className="w-full px-3 py-2 border border-black/20 text-sm focus:outline-none focus:border-black/40"
+                           placeholder="Search customers..."
+                         />
+                         {selectedCustomer && (
+                           <button
+                             type="button"
+                             onClick={() => {
+                               setSelectedCustomer(null);
+                               setCustomerSearchTerm('');
+                             }}
+                             className="absolute right-2 top-2 text-black/40 hover:text-black/60"
+                           >
+                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                             </svg>
+                           </button>
+                         )}
+                       </div>
+                       <button
+                         type="button"
+                         onClick={() => setIsAddCustomerDialogOpen(true)}
+                         className="px-3 py-2 border border-black/20 text-sm hover:bg-black/5 transition-colors flex items-center justify-center"
+                         title="Add new customer"
+                       >
+                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                         </svg>
+                       </button>
+                     </div>
+                     
+                                           {/* Customer Dropdown */}
+                      {isCustomerDropdownOpen && customerSearchTerm && (
+                        <div className="absolute z-50 w-full mt-1 bg-white border border-black/20 shadow-lg max-h-48 overflow-y-auto">
+                         {filteredCustomers.length > 0 ? (
+                           filteredCustomers.map((customer) => (
+                             <button
+                               key={customer.id}
+                               type="button"
+                               onClick={() => {
+                                 setSelectedCustomer(customer);
+                                 setCustomerSearchTerm('');
+                                 setIsCustomerDropdownOpen(false);
+                               }}
+                               className="w-full px-3 py-2 text-left hover:bg-black/5 text-sm"
+                             >
+                               <div className="font-medium text-black">{customer.name}</div>
+                               <div className="text-xs text-black/50">{customer.email}</div>
+                             </button>
+                           ))
+                         ) : (
+                           <div className="px-3 py-2 text-sm text-black/50">No customers found</div>
+                         )}
+                       </div>
+                     )}
+                   </div>
+                 </div>
 
                 {/* Cart Items */}
                 <div className="space-y-4 min-h-[150px]">
@@ -586,7 +563,7 @@ export default function SalesPage() {
                   disabled={isLoading || cart.length === 0}
                   className="w-full py-3 bg-black text-white font-medium text-sm hover:bg-black/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isLoading ? 'Processing...' : 'Complete Sale'}
+                  {isLoading ? 'Processing...' : 'Create Order'}
                 </button>
               </form>
             </div>

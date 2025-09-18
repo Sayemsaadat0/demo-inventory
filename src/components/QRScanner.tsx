@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import jsQR from 'jsqr';
 import {
   Dialog,
@@ -30,7 +30,7 @@ export default function QRScanner({ open, onOpenChange, onScanSuccess }: QRScann
     if (videoRef.current) {
       console.log('Video ref is now available');
     }
-  }, [videoRef.current]);
+  }, []);
 
   // Test jsQR library on component mount
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function QRScanner({ open, onOpenChange, onScanSuccess }: QRScann
     }
   };
 
-  const startCamera = async () => {
+  const startCamera = useCallback(async () => {
     if (isCameraActive || isLoading) return; // Prevent multiple calls
     
     // Double-check video ref is available
@@ -116,7 +116,7 @@ export default function QRScanner({ open, onOpenChange, onScanSuccess }: QRScann
       alert('Unable to access camera for QR scanning. Please ensure camera permissions are granted.');
       setIsLoading(false);
     }
-  };
+  }, [isCameraActive, isLoading]);
 
   const stopCamera = () => {
     if (streamRef.current) {
@@ -152,7 +152,6 @@ export default function QRScanner({ open, onOpenChange, onScanSuccess }: QRScann
     console.log('Starting QR scan loop...');
     setIsScanning(true);
     let frameCount = 0;
-    const lastScanTime = 0;
 
     const scanFrame = () => {
       frameCount++;
@@ -242,7 +241,7 @@ export default function QRScanner({ open, onOpenChange, onScanSuccess }: QRScann
       // Stop camera when dialog closes
       stopCamera();
     }
-  }, [open, isCameraActive]);
+  }, [open, isCameraActive, startCamera]);
 
   // Cleanup on unmount
   useEffect(() => {

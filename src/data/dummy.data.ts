@@ -4,12 +4,11 @@ export interface InventoryItem {
   id: number;
   name: string;
   category: string;
-  sku: string;
+  barcode: string;
+  price: number;
   quantity: number;
   unit: string;
-  supplier: string;
   status: 'In Stock' | 'Low Stock' | 'Out of Stock';
-  location: string;
   qrCode?: string;
 }
 
@@ -18,13 +17,10 @@ export interface InventoryStats {
   lowStock: number;
   outOfStock: number;
   categories: number;
-  suppliers: number;
+  totalValue: number;
 }
 
-export interface SalesData {
-  month: string;
-  quantity: number;
-}
+
 
 export interface InventoryCategory {
   category: string;
@@ -49,35 +45,28 @@ export interface Activity {
 
 export interface DashboardStats {
   totalItems: number;
-  totalSales: number;
+
   totalPurchases: number;
   totalRepairs: number;
   totalStores: number;
   totalCustomers: number;
-  totalSuppliers: number;
+
   totalTechnicians: number;
 }
 
 // Dashboard data
 export const dashboardStats: DashboardStats = {
   totalItems: 1247,
-  totalSales: 342,
+
   totalPurchases: 156,
   totalRepairs: 89,
   totalStores: 3,
   totalCustomers: 342,
-  totalSuppliers: 28,
+
   totalTechnicians: 12
 };
 
-export const salesData: SalesData[] = [
-  { month: 'Jan', quantity: 45 },
-  { month: 'Feb', quantity: 52 },
-  { month: 'Mar', quantity: 67 },
-  { month: 'Apr', quantity: 38 },
-  { month: 'May', quantity: 78 },
-  { month: 'Jun', quantity: 89 }
-];
+
 
 export const inventoryData: InventoryCategory[] = [
   { category: 'Electronics', items: 450, quantity: 1250 },
@@ -105,190 +94,175 @@ export const inventoryItems: InventoryItem[] = [
     id: 1, 
     name: 'iPhone 15 Pro', 
     category: 'Electronics', 
-    sku: 'IPH15P-001', 
+    barcode: '123456789012', 
+    price: 999.99,
     quantity: 45, 
-    unit: 'units',
-    supplier: 'Apple Inc.', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'Main Store',
     qrCode: 'IPH15P-001'
   },
   { 
     id: 2, 
     name: 'MacBook Air M2', 
     category: 'Electronics', 
-    sku: 'MBA-M2-001', 
+    barcode: '123456789013', 
+    price: 1299.99,
     quantity: 23, 
-    unit: 'units',
-    supplier: 'Apple Inc.', 
+    unit: 'pcs',
     status: 'Low Stock', 
-    location: 'Main Store',
     qrCode: 'MBA-M2-001'
   },
   { 
     id: 3, 
     name: 'Wireless Headphones', 
     category: 'Electronics', 
-    sku: 'WH-001', 
+    barcode: '123456789014', 
+    price: 199.99,
     quantity: 67, 
-    unit: 'units',
-    supplier: 'Sony Corp.', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'North Branch',
     qrCode: 'WH-001'
   },
   { 
     id: 4, 
     name: 'Gaming Mouse', 
     category: 'Electronics', 
-    sku: 'GM-001', 
+    barcode: '123456789015', 
+    price: 79.99,
     quantity: 89, 
-    unit: 'units',
-    supplier: 'Logitech', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'South Branch',
     qrCode: 'GM-001'
   },
   { 
     id: 5, 
     name: 'Mechanical Keyboard', 
     category: 'Electronics', 
-    sku: 'MK-001', 
+    barcode: '123456789016', 
+    price: 149.99,
     quantity: 12, 
-    unit: 'units',
-    supplier: 'Corsair', 
+    unit: 'pcs',
     status: 'Low Stock', 
-    location: 'Main Store',
     qrCode: 'MK-001'
   },
   { 
     id: 6, 
     name: 'USB-C Cable', 
     category: 'Electronics', 
-    sku: 'UCC-001', 
+    barcode: '123456789017', 
+    price: 19.99,
     quantity: 234, 
-    unit: 'pieces',
-    supplier: 'Anker', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'Main Store',
     qrCode: 'UCC-001'
   },
   { 
     id: 7, 
     name: 'Bluetooth Speaker', 
     category: 'Electronics', 
-    sku: 'BS-001', 
+    barcode: '123456789018', 
+    price: 89.99,
     quantity: 34, 
-    unit: 'units',
-    supplier: 'JBL', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'North Branch',
     qrCode: 'BS-001'
   },
   { 
     id: 8, 
     name: 'Webcam HD', 
     category: 'Electronics', 
-    sku: 'WC-001', 
+    barcode: '123456789019', 
+    price: 129.99,
     quantity: 56, 
-    unit: 'units',
-    supplier: 'Logitech', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'South Branch',
     qrCode: 'WC-001'
   },
   { 
     id: 9, 
     name: 'Power Bank 10000mAh', 
     category: 'Electronics', 
-    sku: 'PB-001', 
+    barcode: '123456789020', 
+    price: 49.99,
     quantity: 78, 
-    unit: 'units',
-    supplier: 'Anker', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'Main Store',
     qrCode: 'PB-001'
   },
   { 
     id: 10, 
     name: 'Wireless Charger', 
     category: 'Electronics', 
-    sku: 'WC-002', 
+    barcode: '123456789021', 
+    price: 39.99,
     quantity: 29, 
-    unit: 'units',
-    supplier: 'Samsung', 
+    unit: 'pcs',
     status: 'Low Stock', 
-    location: 'North Branch',
     qrCode: 'WC-002'
   },
   { 
     id: 11, 
     name: 'Laptop Stand', 
     category: 'Accessories', 
-    sku: 'LS-001', 
+    barcode: '123456789022', 
+    price: 29.99,
     quantity: 45, 
-    unit: 'units',
-    supplier: 'Amazon Basics', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'Main Store',
     qrCode: 'LS-001'
   },
   { 
     id: 12, 
     name: 'Monitor 27"', 
     category: 'Electronics', 
-    sku: 'MON-001', 
+    barcode: '123456789023', 
+    price: 299.99,
     quantity: 15, 
-    unit: 'units',
-    supplier: 'Dell', 
+    unit: 'pcs',
     status: 'Low Stock', 
-    location: 'South Branch',
     qrCode: 'MON-001'
   },
   { 
     id: 13, 
     name: 'Printer Ink Cartridge', 
     category: 'Office', 
-    sku: 'PIC-001', 
+    barcode: '123456789024', 
+    price: 24.99,
     quantity: 123, 
-    unit: 'cartridges',
-    supplier: 'HP', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'Main Store',
     qrCode: 'PIC-001'
   },
   { 
     id: 14, 
     name: 'Desk Lamp LED', 
     category: 'Office', 
-    sku: 'DL-001', 
+    barcode: '123456789025', 
+    price: 59.99,
     quantity: 67, 
-    unit: 'units',
-    supplier: 'IKEA', 
+    unit: 'pcs',
     status: 'In Stock', 
-    location: 'North Branch',
     qrCode: 'DL-001'
   },
   { 
     id: 15, 
     name: 'Office Chair', 
     category: 'Furniture', 
-    sku: 'OC-001', 
+    barcode: '123456789026', 
+    price: 299.99,
     quantity: 8, 
-    unit: 'units',
-    supplier: 'Herman Miller', 
+    unit: 'pcs',
     status: 'Low Stock', 
-    location: 'Main Store',
     qrCode: 'OC-001'
   }
 ];
 
 export const inventoryStats: InventoryStats = {
-  totalItems: 1247,
-  lowStock: 23,
-  outOfStock: 5,
-  categories: 8,
-  suppliers: 28
+  totalItems: 15,
+  lowStock: 4,
+  outOfStock: 0,
+  categories: 4,
+  totalValue: 4567.89
 };
 
 // Helper function to get items by QR code
@@ -300,8 +274,8 @@ export const getItemByQRCode = (qrCode: string): InventoryItem | undefined => {
 export const searchItems = (searchTerm: string, category?: string, status?: string): InventoryItem[] => {
   return inventoryItems.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.supplier.toLowerCase().includes(searchTerm.toLowerCase());
+                         item.barcode.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         (item.qrCode && item.qrCode.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesCategory = !category || category === 'all' || item.category === category;
     const matchesStatus = !status || status === 'all' || item.status === status;
     
